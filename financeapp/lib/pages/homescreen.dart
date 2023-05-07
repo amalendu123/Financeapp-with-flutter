@@ -1,8 +1,10 @@
+import 'package:financeapp/pages/database.dart';
 import 'package:financeapp/pages/dialogbox.dart';
 import 'package:financeapp/pages/people.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -12,9 +14,21 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  List list = [
-    ["Amalendu", "500"]
-  ];
+  final _myBox = Hive.box('mybox');
+  MoneyDatabase db = MoneyDatabase();
+  @override
+  void initState() {
+    // if this is the 1st time ever openin the app, then create default data
+    if (_myBox.get("money") == null) {
+      db.createInitialData();
+    } else {
+      // there already exists data
+      db.loadData();
+    }
+
+    super.initState();
+  }
+
   bool isSwitched = true;
   final _controller = TextEditingController();
   final _namecontroller = TextEditingController();
@@ -39,7 +53,12 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Finance app"),
+          title: const Text(
+            "Finance app",
+            style: TextStyle(
+              fontFamily: 'RobotoMono',
+            ),
+          ),
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
@@ -49,9 +68,12 @@ class _HomepageState extends State<Homepage> {
           child: const Icon(Icons.add),
         ),
         body: ListView.builder(
-          itemCount: list.length,
+          itemCount: db.money.length,
           itemBuilder: (context, index) {
-            return Peoplecard(people: list[index][0], rupees: list[index][1]);
+            return Peoplecard(
+              people: db.money[index][0],
+              rupees: db.money[index][1],
+            );
           },
         ));
   }
