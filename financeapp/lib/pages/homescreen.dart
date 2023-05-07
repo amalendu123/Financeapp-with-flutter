@@ -15,6 +15,7 @@ class _HomepageState extends State<Homepage> {
   List list = [
     ["Amalendu", "500"]
   ];
+  bool isSwitched = true;
   final _controller = TextEditingController();
   final _namecontroller = TextEditingController();
   void createNewTask() {
@@ -24,6 +25,7 @@ class _HomepageState extends State<Homepage> {
         return Dialogbox(
           name: _namecontroller,
           rupcontroller: _controller,
+          onswitch: isSwitched,
           onSave: saveNewTask,
           onCancel: () => Navigator.of(context).pop(),
         );
