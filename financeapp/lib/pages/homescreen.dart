@@ -32,6 +32,7 @@ class _HomepageState extends State<Homepage> {
   bool isSwitched = true;
   final _controller = TextEditingController();
   final _namecontroller = TextEditingController();
+
   void createNewTask() {
     showDialog(
       context: context,
@@ -47,7 +48,14 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  void saveNewTask() {}
+  void saveNewTask() {
+    setState(() {
+      db.money.add([_namecontroller.text, _controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+    db.updateDataBase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +81,7 @@ class _HomepageState extends State<Homepage> {
             return Peoplecard(
               people: db.money[index][0],
               rupees: db.money[index][1],
+              onswitch: db.money[index][2],
             );
           },
         ));

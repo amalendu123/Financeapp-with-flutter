@@ -7,7 +7,12 @@ import 'package:flutter/src/widgets/placeholder.dart';
 class Peoplecard extends StatelessWidget {
   final String people;
   final String rupees;
-  const Peoplecard({super.key, required this.people, required this.rupees});
+  bool onswitch;
+  Peoplecard(
+      {super.key,
+      required this.people,
+      required this.rupees,
+      required this.onswitch});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class Peoplecard extends StatelessWidget {
             ),
             Text(
               rupees,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: onswitch ? Colors.red : Colors.blue),
             ),
           ],
         ),

@@ -67,9 +67,7 @@ class _DialogboxState extends State<Dialogbox> {
                 Switch(
                   value: widget.onswitch,
                   onChanged: (value) {
-                    setState(() {
-                      widget.onswitch = value;
-                    });
+                    widget.onswitch = value;
                   },
                   activeTrackColor: Colors.indigo,
                   activeColor: Colors.indigo,
