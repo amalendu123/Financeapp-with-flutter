@@ -9,7 +9,7 @@ class MoneyDatabase {
   // run this method if this is the 1st time ever opening this app
   void createInitialData() {
     money = [
-      ["123", "500", false],
+      ["123", "500", "abc"],
     ];
   }
 

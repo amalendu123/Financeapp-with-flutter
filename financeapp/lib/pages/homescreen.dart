@@ -29,9 +29,9 @@ class _HomepageState extends State<Homepage> {
     super.initState();
   }
 
-  bool isSwitched = true;
   final _controller = TextEditingController();
   final _namecontroller = TextEditingController();
+  final _notecontroller = TextEditingController();
 
   void createNewTask() {
     showDialog(
@@ -40,7 +40,7 @@ class _HomepageState extends State<Homepage> {
         return Dialogbox(
           name: _namecontroller,
           rupcontroller: _controller,
-          onswitch: isSwitched,
+          note: _notecontroller,
           onSave: saveNewTask,
           onCancel: () => Navigator.of(context).pop(),
         );
@@ -48,9 +48,16 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
+  void deleteTask(int index) {
+    setState(() {
+      db.money.removeAt(index);
+    });
+    db.updateDataBase();
+  }
+
   void saveNewTask() {
     setState(() {
-      db.money.add([_namecontroller.text, _controller.text, false]);
+      db.money.add([_namecontroller.text, _controller.text, _notecontroller]);
       _controller.clear();
     });
     Navigator.of(context).pop();
@@ -81,7 +88,8 @@ class _HomepageState extends State<Homepage> {
             return Peoplecard(
               people: db.money[index][0],
               rupees: db.money[index][1],
-              onswitch: db.money[index][2],
+              note: db.money[index][2],
+              deleteFunction: (context) => deleteTask(index),
             );
           },
         ));
